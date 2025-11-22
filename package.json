@@ -1,0 +1,28 @@
+{
+  "name": "adprint-blog-theme",
+  "version": "1.0.0",
+  "description": "Modern WordPress theme for advertising and printing blog",
+  "scripts": {
+    "dev": "npx tailwindcss -i ./assets/css/input.css -o ./assets/css/output.css --watch",
+    "build": "npx tailwindcss -i ./assets/css/input.css -o ./assets/css/output.css --minify",
+    "build:critical": "node ./inc/performance/generate-critical-css.js"
+  },
+  "keywords": [
+    "wordpress",
+    "theme",
+    "tailwind",
+    "blog",
+    "seo",
+    "accessibility"
+  ],
+  "author": "TooTranMMO",
+  "license": "GPL-2.0-or-later",
+  "devDependencies": {
+    "tailwindcss": "^3.4.0",
+    "@tailwindcss/typography": "^0.5.10",
+    "@tailwindcss/forms": "^0.5.7",
+    "@tailwindcss/aspect-ratio": "^0.4.2",
+    "autoprefixer": "^10.4.16",
+    "postcss": "^8.4.32"
+  }
+}
