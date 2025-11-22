@@ -156,10 +156,27 @@ function adprint_scripts() {
         wp_enqueue_script('adprint-search', ADPRINT_THEME_URI . '/assets/js/search.js', array(), ADPRINT_VERSION, true);
     }
 
-    // Localize script for AJAX
+    // Register tool scripts (will be enqueued by shortcodes)
+    wp_register_script('adprint-price-calculator', ADPRINT_THEME_URI . '/assets/js/price-calculator.js', array(), ADPRINT_VERSION, true);
+    wp_register_script('adprint-color-converter', ADPRINT_THEME_URI . '/assets/js/color-converter.js', array(), ADPRINT_VERSION, true);
+    wp_register_script('adprint-roi-calculator', ADPRINT_THEME_URI . '/assets/js/roi-calculator.js', array(), ADPRINT_VERSION, true);
+    wp_register_script('adprint-size-calculator', ADPRINT_THEME_URI . '/assets/js/size-calculator.js', array(), ADPRINT_VERSION, true);
+    wp_register_script('adprint-paper-calculator', ADPRINT_THEME_URI . '/assets/js/paper-calculator.js', array(), ADPRINT_VERSION, true);
+    wp_register_script('adprint-file-checker', ADPRINT_THEME_URI . '/assets/js/file-checker.js', array(), ADPRINT_VERSION, true);
+    wp_register_script('adprint-quote-form', ADPRINT_THEME_URI . '/assets/js/quote-form.js', array(), ADPRINT_VERSION, true);
+
+    // Localize script for AJAX (used by multiple scripts)
     wp_localize_script('adprint-main', 'adprintData', array(
         'ajaxUrl' => admin_url('admin-ajax.php'),
-        'nonce' => wp_create_nonce('adprint-nonce'),
+        'nonce' => wp_create_nonce('adprint-ajax-nonce'),
+        'homeUrl' => home_url(),
+        'themeUri' => ADPRINT_THEME_URI,
+    ));
+
+    // Also localize for tool scripts that use AJAX
+    wp_localize_script('adprint-quote-form', 'adprintData', array(
+        'ajaxUrl' => admin_url('admin-ajax.php'),
+        'nonce' => wp_create_nonce('adprint-ajax-nonce'),
         'homeUrl' => home_url(),
         'themeUri' => ADPRINT_THEME_URI,
     ));
@@ -209,6 +226,12 @@ require_once ADPRINT_THEME_DIR . '/inc/template-tags.php';
  * Customizer additions
  */
 require_once ADPRINT_THEME_DIR . '/inc/customizer.php';
+
+/**
+ * Tool shortcodes and AJAX handlers
+ */
+require_once ADPRINT_THEME_DIR . '/inc/tools/tool-shortcodes.php';
+require_once ADPRINT_THEME_DIR . '/inc/tools/ajax-handlers.php';
 
 /**
  * Add async/defer attributes to scripts
