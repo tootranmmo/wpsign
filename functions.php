@@ -146,11 +146,15 @@ function adprint_scripts() {
     // Main theme script
     wp_enqueue_script('adprint-main', ADPRINT_THEME_URI . '/assets/js/main.js', array(), ADPRINT_VERSION, true);
 
-    // Rating system script
-    wp_enqueue_script('adprint-rating', ADPRINT_THEME_URI . '/assets/js/rating.js', array(), ADPRINT_VERSION, true);
+    // Conditional loading - Rating system script (only on single posts)
+    if (is_single()) {
+        wp_enqueue_script('adprint-rating', ADPRINT_THEME_URI . '/assets/js/rating.js', array(), ADPRINT_VERSION, true);
+    }
 
-    // Search functionality
-    wp_enqueue_script('adprint-search', ADPRINT_THEME_URI . '/assets/js/search.js', array(), ADPRINT_VERSION, true);
+    // Conditional loading - Search functionality (only on front page, search, and archive pages)
+    if (is_front_page() || is_search() || is_archive()) {
+        wp_enqueue_script('adprint-search', ADPRINT_THEME_URI . '/assets/js/search.js', array(), ADPRINT_VERSION, true);
+    }
 
     // Localize script for AJAX
     wp_localize_script('adprint-main', 'adprintData', array(
@@ -194,6 +198,7 @@ require_once ADPRINT_THEME_DIR . '/inc/seo/sitemap.php';
 require_once ADPRINT_THEME_DIR . '/inc/performance/webp-support.php';
 require_once ADPRINT_THEME_DIR . '/inc/performance/lazy-load.php';
 require_once ADPRINT_THEME_DIR . '/inc/performance/critical-css.php';
+require_once ADPRINT_THEME_DIR . '/inc/performance/advanced-optimizations.php';
 
 /**
  * Custom template tags

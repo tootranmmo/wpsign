@@ -8,6 +8,33 @@
 (function() {
     'use strict';
 
+    /**
+     * Debounce helper function
+     */
+    function debounce(func, wait) {
+        let timeout;
+        return function executedFunction(...args) {
+            const context = this;
+            clearTimeout(timeout);
+            timeout = setTimeout(() => func.apply(context, args), wait);
+        };
+    }
+
+    /**
+     * Throttle helper function
+     */
+    function throttle(func, limit) {
+        let inThrottle;
+        return function(...args) {
+            const context = this;
+            if (!inThrottle) {
+                func.apply(context, args);
+                inThrottle = true;
+                setTimeout(() => inThrottle = false, limit);
+            }
+        };
+    }
+
     document.addEventListener('DOMContentLoaded', function() {
         // Mobile menu toggle
         initMobileMenu();
@@ -126,8 +153,8 @@
             return;
         }
 
-        // Show/hide button based on scroll position
-        window.addEventListener('scroll', function() {
+        // Show/hide button based on scroll position (throttled for performance)
+        const handleScroll = throttle(function() {
             if (window.pageYOffset > 300) {
                 backToTopButton.classList.remove('hidden');
                 backToTopButton.classList.add('flex');
@@ -135,7 +162,9 @@
                 backToTopButton.classList.add('hidden');
                 backToTopButton.classList.remove('flex');
             }
-        });
+        }, 100); // Throttle to max once per 100ms
+
+        window.addEventListener('scroll', handleScroll, { passive: true });
 
         backToTopButton.addEventListener('click', function() {
             window.scrollTo({

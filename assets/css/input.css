@@ -19,8 +19,8 @@
     overflow-wrap: break-word;
   }
 
-  /* Fix horizontal overflow */
-  * {
+  /* Fix horizontal overflow for media elements only */
+  img, video, iframe, embed, object, svg {
     max-width: 100%;
   }
 
@@ -248,10 +248,8 @@
   .gradient-text {
     @apply bg-gradient-to-r from-primary-600 to-accent-600 bg-clip-text text-transparent;
   }
-}
 
-/* Mobile-Specific Fixes */
-@layer utilities {
+  /* Mobile-Specific Fixes */
   /* Post meta responsive */
   .post-meta {
     @apply flex-wrap text-xs gap-2;

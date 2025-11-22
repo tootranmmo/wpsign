@@ -30,6 +30,26 @@ function adprint_meta_tags() {
 
     echo '<link rel="canonical" href="' . esc_url($canonical_url) . '">' . PHP_EOL;
 
+    // Meta Description
+    $meta_description = '';
+    if (is_singular('post')) {
+        $meta_description = get_the_excerpt() ? wp_trim_words(get_the_excerpt(), 25, '...') : wp_trim_words(get_the_content(), 25, '...');
+    } elseif (is_home() || is_front_page()) {
+        $meta_description = get_bloginfo('description');
+    } elseif (is_category()) {
+        $category = get_queried_object();
+        $meta_description = $category->description ? wp_trim_words($category->description, 25, '...') : get_bloginfo('description');
+    } elseif (is_tag()) {
+        $tag = get_queried_object();
+        $meta_description = $tag->description ? wp_trim_words($tag->description, 25, '...') : get_bloginfo('description');
+    } elseif (is_author()) {
+        $meta_description = get_the_author_meta('description', get_queried_object_id());
+    }
+
+    if ($meta_description) {
+        echo '<meta name="description" content="' . esc_attr(wp_strip_all_tags($meta_description)) . '">' . PHP_EOL;
+    }
+
     // Meta Robots
     if (is_singular()) {
         echo '<meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1">' . PHP_EOL;

@@ -175,6 +175,25 @@ function adprint_customize_register($wp_customize) {
         'section' => 'adprint_footer',
         'type' => 'textarea',
     ));
+
+    // SEO & Analytics Section
+    $wp_customize->add_section('adprint_seo', array(
+        'title' => __('SEO & Analytics', 'adprint-blog'),
+        'priority' => 45,
+    ));
+
+    // Google Analytics ID
+    $wp_customize->add_setting('adprint_analytics_id', array(
+        'default' => '',
+        'sanitize_callback' => 'sanitize_text_field',
+    ));
+
+    $wp_customize->add_control('adprint_analytics_id', array(
+        'label' => __('Google Analytics ID', 'adprint-blog'),
+        'description' => __('Enter your GA4 Measurement ID (e.g., G-XXXXXXXXXX)', 'adprint-blog'),
+        'section' => 'adprint_seo',
+        'type' => 'text',
+    ));
 }
 add_action('customize_register', 'adprint_customize_register');
 
