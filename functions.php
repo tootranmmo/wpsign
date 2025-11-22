@@ -228,10 +228,12 @@ require_once ADPRINT_THEME_DIR . '/inc/template-tags.php';
 require_once ADPRINT_THEME_DIR . '/inc/customizer.php';
 
 /**
- * Tool shortcodes and AJAX handlers
+ * Tool shortcodes, widgets, and AJAX handlers
  */
 require_once ADPRINT_THEME_DIR . '/inc/tools/tool-shortcodes.php';
 require_once ADPRINT_THEME_DIR . '/inc/tools/ajax-handlers.php';
+require_once ADPRINT_THEME_DIR . '/inc/tools/tools-widget.php';
+require_once ADPRINT_THEME_DIR . '/inc/tools/quote-post-type.php';
 
 /**
  * Add async/defer attributes to scripts

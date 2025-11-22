@@ -185,6 +185,33 @@ function adprint_submit_quote_request() {
         ]
     );
 
+    $db_quote_id = $wpdb->insert_id;
+
+    // Also save to Custom Post Type for better management
+    $cpt_id = wp_insert_post([
+        'post_title' => $contact_name . ' - ' . ($product_type === 'custom' ? $custom_product : $product_type),
+        'post_type' => 'quote_request',
+        'post_status' => 'publish',
+    ]);
+
+    if ($cpt_id) {
+        update_post_meta($cpt_id, '_quote_db_id', $db_quote_id);
+        update_post_meta($cpt_id, '_quote_product_type', $product_type === 'custom' ? $custom_product : $product_type);
+        update_post_meta($cpt_id, '_quote_quantity', $quantity);
+        update_post_meta($cpt_id, '_quote_paper_type', $paper_type);
+        update_post_meta($cpt_id, '_quote_print_size', $print_size);
+        update_post_meta($cpt_id, '_quote_color_type', $color_type);
+        update_post_meta($cpt_id, '_quote_finishing', $finishing);
+        update_post_meta($cpt_id, '_quote_urgency', $urgency);
+        update_post_meta($cpt_id, '_quote_contact_name', $contact_name);
+        update_post_meta($cpt_id, '_quote_contact_email', $contact_email);
+        update_post_meta($cpt_id, '_quote_contact_phone', $contact_phone);
+        update_post_meta($cpt_id, '_quote_contact_company', $contact_company);
+        update_post_meta($cpt_id, '_quote_additional_notes', $additional_notes);
+        update_post_meta($cpt_id, '_quote_uploaded_file', $uploaded_file);
+        update_post_meta($cpt_id, '_quote_status', 'pending');
+    }
+
     if ($email_sent) {
         wp_send_json_success([
             'message' => 'Yêu cầu báo giá đã được gửi thành công!'
